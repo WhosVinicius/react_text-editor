@@ -3,7 +3,7 @@ import cards from "./cards";
 import { Editor } from "./Editor/Text_editor/main";
 import { Preview } from "./Editor/Output/main";
 import { SideBar } from "./SideBar/main";
-
+import Index from "./Editor/Index";
 const App = () => {
 	const [active, setActive] = useState(null);
 	const [content, setcontent] = useState(active != null ? active.body : "");
@@ -17,12 +17,13 @@ const App = () => {
 				setActive={setActive}
 				setCards={setCards}
 			/>
-			<Editor
+			<Index active={active} />;
+			{/* <Editor
 				active={active}
 				// content={content}
 				// setcontent={setcontent}
 			/>
-			<Preview active={active} />
+			<Preview active={active} /> */}
 		</div>
 	);
 };
