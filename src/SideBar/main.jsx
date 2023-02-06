@@ -1,70 +1,60 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import CardPreview from "./CardPreview";
 import { useState } from "react";
+import NewItem from "./NewItem";
 
-const main = ({ active, setActive, cards, setCards }) => {
-	const [isCreateActive, setCreateAsActive] = useState(false);
+const main = ({ activeControler, cardsControler }) => {
+	const [isInputActive, setInputActive] = useState(false);
 	const [newTitle, setNewTitle] = useState("");
-	const [contchars, setchars] = useState(20);
 
 	const newCard = {
 		title: newTitle,
 		body: "",
 	};
 
-	function showInput() {
-		setCreateAsActive(!isCreateActive);
+	function deleteCard(toBeDeleted) {
+		cardsControler.setCards([...cardsControler.Cards.filter((card) => card != toBeDeleted)]);
+		activeControler.setActive(null);
+		console.log(activeControler.active);
 	}
 
+	function showInput() {
+		setInputActive(!isInputActive);
+	}
 	function createNewCard(newCard) {
 		if (newCard.title != "") {
-			setCards([...cards, newCard]);
+			cardsControler.setCards([...cardsControler.Cards, newCard]);
 			setNewTitle("");
-			setCreateAsActive(false);
+			setInputActive(false);
 		} else {
 			throw "Por favor insira um titulo";
 		}
 	}
-
 	return (
-		<div className=' bg-stone-900 w-1/5 text-white '>
+		<div
+			style={{ minWidth: "275px" }}
+			className=" bg-stone-900 w-1/5 text-white ">
 			<button
 				onClick={(e) => showInput()}
-				className='m-2 p-1 '>
+				className="m-2 p-1 ">
 				New File <FontAwesomeIcon icon={faPlus} />
 			</button>
-			<div className='flex flex-col'>
-				{isCreateActive && (
-					<form
-						onSubmit={(e) => e.preventDefault()}
-						className='p-2 border-b border-gray-600 bg-stone-600  ease-in-out duration-300 flex gap-3'>
-						<input
-							value={newTitle}
-							maxLength={20}
-							onChange={(e) => setNewTitle(e.target.value)}
-							autoFocus
-							placeholder='New file title'
-							className='w-44 bg-stone-700 outline-none  p-1 rounded-sm'
-							type='text'
-						/>
-						<div className='flex w-full justify-between px-2'>
-							<p className='my-2'>{contchars - newTitle.length}</p>
-							<button
-								className=''
-								onClick={(e) => createNewCard(newCard)}
-								title='save file'>
-								<FontAwesomeIcon icon={faSave} />
-							</button>
-						</div>
-					</form>
+			<div className="flex flex-col gap-2">
+				{isInputActive && (
+					<NewItem
+						createNewCard={createNewCard}
+						setNewTitle={setNewTitle}
+						newCard={newCard}
+					/>
 				)}
-				{cards.map((card) => (
+				{cardsControler.Cards.map((card) => (
 					<CardPreview
-						Class={active == card ? "bg-stone-700" : ""}
+						activeClassname={activeControler.active == card ? "bg-stone-700" : ""}
 						card={card}
-						key={card.title + Math.random() * 100}
-						setActive={setActive}
+						key={card.title + Math.random() * 1000}
+						setActive={activeControler.setActive}
+						del={deleteCard}
 					/>
 				))}
 			</div>

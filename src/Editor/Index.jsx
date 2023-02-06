@@ -1,28 +1,34 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Preview } from "./Output/main";
 import { Editor } from "./Text_editor/main";
 
 const Index = ({ active }) => {
+	const [content, setContent] = useState("");
+
 	useEffect(() => {
 		if (active != null) {
-			setcontent(active.body);
+			setContent(active.body);
 		}
 	}, [active]);
 
-	const [content, setcontent] = useState(active ? active.body : "");
+	function save(item) {
+		active.body = item;
+	}
+
+	const title = active ? active.title : "";
+
+	const activePROPS = { content, title };
+
 	return (
 		<>
 			<Editor
-				content={content}
-				setcontent={setcontent}
-				title={active ? active.title : ""}
+				data={activePROPS}
+				setcontent={setContent}
+				save={save}
 			/>
-			<Preview
-				content={content}
-				title={active ? active.title : ""}
-			/>
+			<Preview data={activePROPS} />
 		</>
 	);
 };
 
-export default Index;
+export { Index as Editor };

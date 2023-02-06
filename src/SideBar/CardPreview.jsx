@@ -1,13 +1,36 @@
-const CardPreview = ({ card, setActive, Class }) => {
+import { faPen, faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+
+const CardPreview = ({ card, del, setActive, activeClassname }) => {
+	const [isHovering, setHovering] = useState(false);
 	return (
 		<div
 			title={card.title}
-			className={Class + " w-full  p-1 ease-in-out duration-300"}>
+			onMouseEnter={() => setHovering(!isHovering)}
+			onMouseLeave={() => setHovering(!isHovering)}
+			className={activeClassname + " flex justify-between px-2 ease-in-out duration-300"}>
 			<span
 				onClick={() => setActive(card)}
-				className={"cursor-pointer  ml-5 w-full"}>
+				className={"ml-2 cursor-pointer outline-none bg-inherit flex justify-between px-2 "}>
 				{card.title}
 			</span>
+			{isHovering && (
+				<div className="flex gap-3 ease-in-out duration-300">
+					<button>
+						<FontAwesomeIcon
+							style={{ width: "15px", height: "15px" }}
+							icon={faPen}
+						/>
+					</button>
+					<button onClick={() => del(card)}>
+						<FontAwesomeIcon
+							style={{ width: "15px", height: "15px" }}
+							icon={faX}
+						/>
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
