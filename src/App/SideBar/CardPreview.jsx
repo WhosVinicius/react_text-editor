@@ -9,7 +9,7 @@ const CardPreview = ({ card, del, setActive, activeClassname }) => {
 			title={card.title}
 			onMouseEnter={() => setHovering(!isHovering)}
 			onMouseLeave={() => setHovering(!isHovering)}
-			className={activeClassname + " flex justify-between px-2 ease-in-out duration-300"}>
+			className={activeClassname + "  flex justify-between px-2 ease-in-out duration-300"}>
 			<span
 				onClick={() => setActive(card)}
 				className={"ml-2 cursor-pointer outline-none bg-inherit flex justify-between px-2 "}>
@@ -23,7 +23,9 @@ const CardPreview = ({ card, del, setActive, activeClassname }) => {
 							icon={faPen}
 						/>
 					</button>
-					<button onClick={() => del(card)}>
+					<button
+						title="Delete item"
+						onClick={() => del(card)}>
 						<FontAwesomeIcon
 							style={{ width: "15px", height: "15px" }}
 							icon={faX}
