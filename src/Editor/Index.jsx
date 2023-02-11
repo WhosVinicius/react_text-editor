@@ -8,8 +8,6 @@ const Index = ({ active }) => {
 	useEffect(() => {
 		if (active != null) {
 			setContent(active.body);
-		} else {
-			setContent("");
 		}
 	}, [active]);
 

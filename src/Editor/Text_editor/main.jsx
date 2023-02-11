@@ -1,17 +1,17 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import {useState} from "react";
 
-const main = ({ data, save, setcontent }) => {
+const main = ({data, save, setcontent}) => {
 	const [saved, setSaved] = useState(true);
 
-	function handleTextChange(newText) {
+	function handleTextChange (newText) {
 		setcontent(newText);
 		setSaved(false);
 	}
 
 	return (
-		<div className="px-1 w-3/5 flex border-r-2 flex-col border-neutral-700">
+		<div className="px-1 w-3/5 flex border-r-2 flex-col border-neutral-700 bg-white">
 			<div className="flex p-2 justify-between">
 				<h1 className="ease-in-out duration-300 outline-none font-mono text-2xl text-center p-1">
 					{data.title + " " + (saved == true ? "(saved)" : "(unsaved)")}
@@ -33,4 +33,4 @@ const main = ({ data, save, setcontent }) => {
 	);
 };
 
-export { main as Editor };
+export {main as Editor};
