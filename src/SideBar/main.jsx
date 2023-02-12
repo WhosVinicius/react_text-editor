@@ -32,7 +32,6 @@ const main = ({activeControler, cardsControler}) => {
 	function createNewCard (newCard) {
 		if (newCard.title != "") {
 			cardsControler.setCards([...cardsControler.Cards, newCard]);
-			setNewTitle("");
 			setInputActive(false);
 			activeControler.setActive(newCard);
 		} else {
@@ -62,7 +61,7 @@ const main = ({activeControler, cardsControler}) => {
 		<div
 			className="bg-stone-900 text-white w-1/5"
 			style={{minWidth: "255px"}}>
-			<div className=" h-2/3 overflow-y-scroll  ">
+			<div className=" h-2/3 overflow-y-scroll overflow-x-hidden  ">
 				<div className="px-2 mb-1 bg-stone-700 flex justify-between">
 					<h2 className="m-2 text-xl">Workspace</h2>
 					<button

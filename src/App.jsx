@@ -1,11 +1,19 @@
-import {useState} from "react";
-import cards from "./cards";
+import {useState, useEffect} from "react";
 import {SideBar} from ".//SideBar/main";
 import {Editor} from "./Editor/Index";
+import axios from "axios";
 
 const App = () => {
+
 	const [active, setActive] = useState(null);
-	const [Cards, setCards] = useState([...cards]);
+	const [Cards, setCards] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get("http://localhost:3000/files")
+			.then(response => setCards(response.data));
+	}, []);
+
 
 	if (active != null) {
 		document.title = active.title;
