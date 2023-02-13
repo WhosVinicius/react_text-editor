@@ -1,4 +1,4 @@
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 
@@ -6,6 +6,10 @@ const Index = ({ trashControler, cardsControler }) => {
 	function remove(toBeDeleted) {
 		cardsControler.setCards([...cardsControler.Cards, toBeDeleted]);
 		trashControler.setTrash([...trashControler.trash.filter((card) => card != toBeDeleted)]);
+	}
+
+	function removePermanent(tobeRemoved) {
+		trashControler.setTrash([...trashControler.trash.filter((card) => card != tobeRemoved)]);
 	}
 
 	return (
@@ -19,11 +23,22 @@ const Index = ({ trashControler, cardsControler }) => {
 				{trashControler.trash.map((card) => (
 					<div className=" p-2 ml-2 flex w-full animate-popIn justify-between">
 						{card.title}
-						<button
-							title="Undo delete"
-							onClick={() => remove(card)}>
-							<FontAwesomeIcon icon={faRedo} />
-						</button>
+						<div className="flex gap-2">
+							<form
+								method="DELETE"
+								onSubmit={(e) => e.preventDefault()}>
+								<button
+									title="Undo delete"
+									onClick={() => remove(card)}>
+									<FontAwesomeIcon icon={faRedo} />
+								</button>
+							</form>
+							<button
+								title="Undo delete"
+								onClick={() => removePermanent(card)}>
+								<FontAwesomeIcon icon={faX} />
+							</button>
+						</div>
 					</div>
 				))}
 			</div>

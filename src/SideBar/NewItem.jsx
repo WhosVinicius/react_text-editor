@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+
 const NewItem = ({createNewCard}) => {
 	const [newTitle, setNewTitle] = useState("");
 
@@ -10,30 +10,15 @@ const NewItem = ({createNewCard}) => {
 		body: "",
 	};
 
-	async function PostData () {
-		axios
-			.post("http://localhost:3000/files", {
-				name: newTitle
-			})
-			.then(function (response) {
-				console.log(response);
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-	}
-
-
 	return (
 		<>
 			<form
 				method="post"
 				onSubmit={(e) => {
 					e.preventDefault();
-					if (newTitle != '') {
-						createNewCard(newCard)
-						PostData();
-						setNewTitle('')
+					if (newTitle != "") {
+						createNewCard(newCard);
+						setNewTitle("");
 					}
 				}}
 				className="px-2 pt-1 p-2 border-b border-gray-600  ease-in-out duration-300 flex  gap-1">
