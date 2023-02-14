@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { SideBar } from ".//SideBar/main";
+import { useState } from "react";
 import { Editor } from "./Editor/Index";
-import axios from "axios";
+import SidePanel from "./SideBar/Index";
 const App = () => {
 	const [active, setActive] = useState(null);
 
@@ -12,7 +11,10 @@ const App = () => {
 	return (
 		<div className="flex flex-col bg-stone-800 ">
 			<div className="flex h-screen  ">
-				<SideBar activeControler={{ active, setActive }} />
+				<SidePanel
+					active={active}
+					setActive={setActive}
+				/>
 				<Editor active={active} />
 			</div>
 		</div>

@@ -1,4 +1,10 @@
-const Search = ({handleSearch}) => {
+import { useEffect } from "react";
+
+const Search = ({ baseVal, handleSearch }) => {
+	useEffect(() => {
+		handleSearch("");
+	}, []);
+
 	return (
 		<>
 			<form
@@ -7,6 +13,7 @@ const Search = ({handleSearch}) => {
 				<input
 					maxLength={20}
 					autoFocus
+					value={baseVal}
 					placeholder="Search for a file"
 					className=" w-full bg-stone-700 outline-none py-1 px-3 rounded-sm"
 					type="text"

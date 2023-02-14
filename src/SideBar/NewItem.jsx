@@ -1,15 +1,14 @@
-import {useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSave} from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 
-const NewItem = ({createNewCard}) => {
+const NewItem = ({ createNewCard }) => {
 	const [newTitle, setNewTitle] = useState("");
 
 	const newCard = {
 		title: newTitle,
 		body: "",
 	};
-
 	return (
 		<>
 			<form
@@ -19,6 +18,8 @@ const NewItem = ({createNewCard}) => {
 					if (newTitle != "") {
 						createNewCard(newCard);
 						setNewTitle("");
+					} else {
+						throw "Please insert a title";
 					}
 				}}
 				className="px-2 pt-1 p-2 border-b border-gray-600  ease-in-out duration-300 flex  gap-1">
