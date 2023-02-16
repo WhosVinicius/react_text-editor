@@ -1,9 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import Trashcan from "./TrashCan/Trashcan";
-const SideBar = ({ NewItem, SearchForm, list }) => {
-	const [isInputActive, setInputActive] = useState(false);
+const SideBar = ({ NewItem, SearchForm, list, isInputActive, setInputActive, Trash }) => {
 	const [searchInput, setSearchInput] = useState(false);
 
 	function showInput() {
@@ -35,14 +33,12 @@ const SideBar = ({ NewItem, SearchForm, list }) => {
 					</button>
 				</div>
 				<div className="mb-3 flex flex-col gap-2">
-					{isInputActive && NewItem}
+					{isInputActive == true ? NewItem : ""}
 					{searchInput && SearchForm}
 					{list}
 				</div>
 			</div>
-			<div className="overflow-y-scroll h-1/3">
-				<Trashcan />
-			</div>
+			<div className="overflow-y-scroll h-1/3">{Trash}</div>
 		</div>
 	);
 };

@@ -13,10 +13,10 @@ async function PostFiles (url, file) {
         });
 }
 
-async function remove (url, file) {
+async function removeFromAPI (url, file) {
     axios
         .delete(url, {
-            file: file
+            item: file
         })
         .then(function (response) {
             console.log(response);
@@ -28,7 +28,8 @@ async function remove (url, file) {
 
 async function getFiles (url) {
     const res = await axios.get(url)
+    console.log(res)
     return res.data
 }
 
-export {remove as removeFiles, PostFiles, getFiles}
+export {removeFromAPI, PostFiles, getFiles}

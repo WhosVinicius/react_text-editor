@@ -4,32 +4,40 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import NewItem from "./NewItem";
 import CardPreview from "./FilePreview";
+import { getFiles, PostFiles, removeFromAPI } from "../api";
+import Trashcan from "./TrashCan/Trashcan";
 
 const SidePanel = ({ active, setActive }) => {
 	const [cards, setCards] = useState([]);
+	const [trashFiles, setTrashFiles] = useState([]);
+	const [isInputActive, setInputActive] = useState(false);
+	const [searchValue, setSearchValue] = useState("");
 
 	const filesURL = "http://localhost:3000/files";
+	const trashURL = "http://localhost:3000/trash";
 
 	useEffect(() => {
 		axios.get(filesURL).then((response) => setCards(response.data));
+		axios.get(trashURL).then((response) => setTrashFiles(response.data));
 	}, []);
 
 	function remove(file) {
 		setCards(cards.filter((item) => item != file));
+		PostFiles(trashURL, file);
+		removeFromAPI(filesURL, file);
+		setTrashFiles([...trashFiles, file]);
 	}
 
-	//quando rendereizamos o componente Wraper, ele pega os dados da api e os joga pra sideBar para renderizar os arquivos
-
-	const [searchValue, setSearchValue] = useState("");
-
-	const displayed = cards.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
-	console.log(displayed);
+	function undoRemove(file) {
+		setCards([...cards, file]);
+		setTrashFiles(trashFiles.filter((item) => item != file));
+	}
 
 	function createNewCard(newCard) {
+		setCards([...cards, newCard]);
+		setActive(newCard);
 		setInputActive(false);
-		setCards([...cards.newCard]);
-		//setActive newCard
-		PostFiles(filesURL, newCard.title);
+		PostFiles(filesURL, newCard);
 	}
 
 	return (
@@ -41,7 +49,7 @@ const SidePanel = ({ active, setActive }) => {
 				/>
 			}
 			NewItem={<NewItem createNewCard={createNewCard} />}
-			list={displayed.map((file) => (
+			list={cards.map((file) => (
 				<CardPreview
 					card={file}
 					del={remove}
@@ -49,6 +57,15 @@ const SidePanel = ({ active, setActive }) => {
 					activeClassname={active == file ? "bg-stone-700" : ""}
 				/>
 			))}
+			setInputActive={setInputActive}
+			isInputActive={isInputActive}
+			Trash={
+				<Trashcan
+					trash={trashFiles}
+					setTrash={setTrashFiles}
+					removeFromTrash={undoRemove}
+				/>
+			}
 		/>
 	);
 };
