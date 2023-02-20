@@ -1,6 +1,6 @@
-import SideBar from "./Sidebar";
 import Search from "./Search";
 import { useState, useEffect } from "react";
+import SideBar from "./SideBar";
 import axios from "axios";
 import NewItem from "./NewItem";
 import CardPreview from "./FilePreview";
@@ -40,6 +40,10 @@ const SidePanel = ({ active, setActive }) => {
 		PostFiles(filesURL, newCard);
 	}
 
+	function filterFiles(text) {
+		return cards.filter((el) => el.title.toLowerCase().includes(text.toLowerCase()));
+	}
+
 	return (
 		<SideBar
 			SearchForm={
@@ -49,7 +53,7 @@ const SidePanel = ({ active, setActive }) => {
 				/>
 			}
 			NewItem={<NewItem createNewCard={createNewCard} />}
-			list={cards.map((file) => (
+			list={filterFiles(searchValue).map((file) => (
 				<CardPreview
 					card={file}
 					del={remove}

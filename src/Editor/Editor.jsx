@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Preview } from "./Output/main";
-import { Editor } from "./Text_editor/main";
+import { Preview } from "./Output/Output";
+import { Editor } from "./Text_editor/Text_Editor";
 
 const Index = ({ active }) => {
 	const [content, setContent] = useState("");

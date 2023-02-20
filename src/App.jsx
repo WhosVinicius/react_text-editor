@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Editor } from "./Editor/Index";
-import SidePanel from "./SideBar/Index";
+import { Editor } from "./Editor/Editor";
+import SidePanel from "./SidePanel/SidePanel";
 const App = () => {
 	const [active, setActive] = useState(null);
 
@@ -9,8 +9,8 @@ const App = () => {
 	}
 
 	return (
-		<div className="flex flex-col bg-stone-800 ">
-			<div className="flex h-screen  ">
+		<div className='flex flex-col bg-stone-800 '>
+			<div className='flex h-screen  '>
 				<SidePanel
 					active={active}
 					setActive={setActive}
