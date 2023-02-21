@@ -24,13 +24,14 @@ const SidePanel = ({ active, setActive }) => {
 	function remove(file) {
 		setCards(cards.filter((item) => item != file));
 		PostFiles(trashURL, file);
-		removeFromAPI(filesURL, file);
+		axios.delete(trashURL, { item: file });
 		setTrashFiles([...trashFiles, file]);
 	}
 
 	function undoRemove(file) {
 		setCards([...cards, file]);
 		setTrashFiles(trashFiles.filter((item) => item != file));
+		removeFromAPI(trashURL, file);
 	}
 
 	function createNewCard(newCard) {

@@ -1,5 +1,6 @@
-import express, {json} from "express";
+import express, { json } from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
 
 let files = [
 	{
@@ -16,56 +17,72 @@ let files = [
 	},
 ];
 
-let trash = []
+let trash = [];
 
 const app = express();
-
-app.use(express.urlencoded());
-app.use(json());
-
-app.use(
-	cors({
-		origin: "http://localhost:5173",
-	}),
-);
 
 const port = 3000;
 
 app.get("/files", (req, res) => res.json(files));
 
 app.get("/files/:title", (req, res) => {
-	const {title} = req.params;
+	const { title } = req.params;
 	res.json(files.find((file) => file.title.toLowerCase() == title.toLowerCase()));
 });
 
-app.get("/trash", (req, res) => {res.json(trash)});
+app.get("/trash", (req, res) => {
+	res.json(trash);
+});
 
-app.post('/trash', (req, res) => {
-	const {item} = req.body;
-	trash.push(item)
-	return res.json(trash)
-})
+app.post("/trash", (req, res) => {
+	const { item } = req.body;
+	trash.push(item);
+	return res.json(trash);
+});
 
 app.post("/files", (req, res) => {
-	const {item} = req.body;
+	const { item } = req.body;
 	files.push(item);
 	return res.json(files);
 });
 
-app.delete('/trash', (req, res) => {
-	const {item} = req.body
-	trash = trash.filter((file) => item != file)
-	return res.json(trash)
-
-})
+app.delete("/trash/:title", (req, res) => {
+	const { title } = req.params;
+	const deleted = trash.find((file) => file.title == title);
+	if (deleted) {
+		trash = trash.filter((file) => file != deleted);
+		return res.json(trash);
+	} else {
+		res.status(404);
+		res.json({ message: "Could not find item with the following title:", title });
+	}
+});
 
 app.delete("/files", (req, res) => {
-	console.log(req.body)
-	const {item} = req.body
-	files = files.filter((file) => item != file)
-	return res.json(files)
-})
+	const { title } = req.params;
+	const deleted = files.find((file) => file.title == title);
+	if (deleted) {
+		files = files.filter((file) => file != deleted);
+		return res.json(files);
+	} else {
+		res.status(404);
+		res.json({ message: "Could not find item with the following title:", title });
+	}
+});
 
+app.put("/files", (req, res) => {
+	const { item } = req.body;
+	const indexOfElement = files.indexOf(files.find((element) => element.title.toLocaleLowerCase() == item.title.toLowerCase()));
+	files[indexOfElement] = item;
+	return res.json(files);
+});
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+	}),
+);
 
-app.listen(port, () => console.log(`Hello world app listening on port ${ port }!`));
+app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));
