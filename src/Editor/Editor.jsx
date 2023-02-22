@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { putData } from "../api";
 import { Preview } from "./Output/Output";
-import { Editor } from "./Text_editor/Text_Editor";
-const Index = ({ active }) => {
+import Text_Editor from "./Text_editor/Text_Editor";
+const Editor = ({ active }) => {
 	const [content, setContent] = useState("");
 	const [saved, SetSaved] = useState(true);
+
 	useEffect(() => {
 		if (active != null) {
 			setContent(active.body);
 		}
+		SetSaved(true);
 	}, [active]);
 
 	function save(item) {
@@ -18,21 +20,20 @@ const Index = ({ active }) => {
 	}
 
 	const title = active ? active.title : "";
-
-	const activePROPS = { content, title };
+	const activeFile = { content, title };
 
 	return (
 		<>
-			<Editor
-				data={activePROPS}
+			<Text_Editor
+				data={activeFile}
 				setcontent={setContent}
 				SetSaved={SetSaved}
 				saved={saved}
 				save={save}
 			/>
-			<Preview data={activePROPS} />
+			<Preview data={activeFile} />
 		</>
 	);
 };
 
-export { Index as Editor };
+export default Editor;

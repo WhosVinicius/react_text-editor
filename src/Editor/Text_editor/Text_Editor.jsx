@@ -1,11 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-const main = ({ data, save, saved, SetSaved, setcontent }) => {
+const Text_Editor = ({ data, save, saved, SetSaved, setcontent }) => {
 	function handleTextChange(newText) {
 		setcontent(newText);
 		SetSaved(false);
 	}
-
 	return (
 		<div className='px-1 w-2/5 flex border-r-2 flex-col border-neutral-700 bg-white'>
 			<div className='flex p-2 justify-between'>
@@ -29,4 +28,4 @@ const main = ({ data, save, saved, SetSaved, setcontent }) => {
 	);
 };
 
-export { main as Editor };
+export default Text_Editor;

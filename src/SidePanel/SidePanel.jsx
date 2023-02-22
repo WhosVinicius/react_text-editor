@@ -1,7 +1,6 @@
 import Search from "./Search";
 import { useState, useEffect } from "react";
 import SideBar from "./SideBar";
-import axios from "axios";
 import NewItem from "./NewItem";
 import CardPreview from "./FilePreview";
 import { getFiles, PostFiles, removeFromAPI } from "../api";
@@ -12,37 +11,40 @@ const SidePanel = ({ active, setActive }) => {
 	const [trashFiles, setTrashFiles] = useState([]);
 	const [isInputActive, setInputActive] = useState(false);
 	const [searchValue, setSearchValue] = useState("");
-
 	const filesURL = "http://localhost:3000/files";
 	const trashURL = "http://localhost:3000/trash";
 
 	useEffect(() => {
-		axios.get(filesURL).then((response) => setCards(response.data));
-		axios.get(trashURL).then((response) => setTrashFiles(response.data));
+		const get = async () => {
+			setCards(await getFiles(filesURL));
+			setTrashFiles(await getFiles(trashURL));
+		};
+		get();
 	}, []);
 
-	function remove(file) {
-		setCards(cards.filter((item) => item != file));
-		PostFiles(trashURL, file);
-		axios.delete(trashURL, { item: file });
-		setTrashFiles([...trashFiles, file]);
+	function remove(ToBeRemoved) {
+		setCards(cards.filter((item) => item != ToBeRemoved));
+		setTrashFiles([...trashFiles, ToBeRemoved]);
+		PostFiles(trashURL, ToBeRemoved);
+		removeFromAPI(`${filesURL}/${ToBeRemoved.title}`);
 	}
 
-	function undoRemove(file) {
-		setCards([...cards, file]);
-		setTrashFiles(trashFiles.filter((item) => item != file));
-		removeFromAPI(trashURL, file);
+	function undoRemove(ToBeRemoved) {
+		setCards([...cards, ToBeRemoved]);
+		setTrashFiles(trashFiles.filter((item) => item != ToBeRemoved));
+		removeFromAPI(`${trashURL}/${ToBeRemoved.title}`);
+		PostFiles(filesURL, ToBeRemoved);
 	}
 
-	function createNewCard(newCard) {
-		setCards([...cards, newCard]);
-		setActive(newCard);
+	function createNewCard(newFile) {
+		setCards([...cards, newFile]);
+		setActive(newFile);
 		setInputActive(false);
-		PostFiles(filesURL, newCard);
+		PostFiles(filesURL, newFile);
 	}
 
 	function filterFiles(text) {
-		return cards.filter((el) => el.title.toLowerCase().includes(text.toLowerCase()));
+		return cards.filter((element) => element.title.toLowerCase().includes(text.toLowerCase()));
 	}
 
 	return (

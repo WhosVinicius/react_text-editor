@@ -1,16 +1,18 @@
 import { faTrash, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { removeFromAPI } from "../../api";
 
 const Trashcan = ({ trash, setTrash, removeFromTrash }) => {
 	function removePermanent(tobeRemoved) {
 		setTrash([...trash.filter((card) => card != tobeRemoved)]);
+		removeFromAPI(`http://localhost:3000/trash/${tobeRemoved.title}`);
 	}
 
 	return (
 		<div>
 			<div className=' bg-stone-700 p-2 '>
-				<span className='m-2 text-lg '>
+				<span className='m-2 text-lg'>
 					Trashcan <FontAwesomeIcon icon={faTrash} />
 				</span>
 			</div>

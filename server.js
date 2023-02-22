@@ -17,9 +17,17 @@ let files = [
 	},
 ];
 
-let trash = [];
-
 const app = express();
+
+app.use(bodyParser.json());
+
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+	}),
+);
+
+let trash = [];
 
 const port = 3000;
 
@@ -58,8 +66,9 @@ app.delete("/trash/:title", (req, res) => {
 	}
 });
 
-app.delete("/files", (req, res) => {
+app.delete("/files/:title", (req, res) => {
 	const { title } = req.params;
+	console.log(req.params);
 	const deleted = files.find((file) => file.title == title);
 	if (deleted) {
 		files = files.filter((file) => file != deleted);
@@ -76,13 +85,5 @@ app.put("/files", (req, res) => {
 	files[indexOfElement] = item;
 	return res.json(files);
 });
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(
-	cors({
-		origin: "http://localhost:5173",
-	}),
-);
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));

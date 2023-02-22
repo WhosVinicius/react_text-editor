@@ -1,3 +1,4 @@
+import { faUserXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 axios.defaults.headers.common = {
@@ -18,10 +19,9 @@ async function PostFiles(url, file) {
 }
 
 async function removeFromAPI(url, file) {
+	console.log(url);
 	axios
-		.delete(url, {
-			item: file,
-		})
+		.delete(url)
 		.then(function (response) {
 			console.log(response);
 		})
