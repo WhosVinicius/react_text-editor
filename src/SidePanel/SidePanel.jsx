@@ -47,6 +47,15 @@ const SidePanel = ({ active, setActive }) => {
 		return cards.filter((element) => element.title.toLowerCase().includes(text.toLowerCase()));
 	}
 
+	const list = filterFiles(searchValue).map((file) => (
+		<CardPreview
+			card={file}
+			del={remove}
+			setActive={setActive}
+			activeClassname={active == file ? "bg-stone-700" : ""}
+		/>
+	));
+
 	return (
 		<SideBar
 			SearchForm={
@@ -56,14 +65,7 @@ const SidePanel = ({ active, setActive }) => {
 				/>
 			}
 			NewItem={<NewItem createNewCard={createNewCard} />}
-			list={filterFiles(searchValue).map((file) => (
-				<CardPreview
-					card={file}
-					del={remove}
-					setActive={setActive}
-					activeClassname={active == file ? "bg-stone-700" : ""}
-				/>
-			))}
+			list={list.length > 0 ? list : "the list is empty"}
 			setInputActive={setInputActive}
 			isInputActive={isInputActive}
 			Trash={

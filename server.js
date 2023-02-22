@@ -2,20 +2,9 @@ import express, { json } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-let files = [
-	{
-		title: "Titulo 1",
-		body: "#Oi, aqui e um h1",
-	},
-	{
-		title: "Titulo 2",
-		body: "##Oi, aqui e um h2",
-	},
-	{
-		title: "Titulo 3",
-		body: "###Oi, aqui e um h3",
-	},
-];
+let files = [];
+
+let trash = [];
 
 const app = express();
 
@@ -26,8 +15,6 @@ app.use(
 		origin: "http://localhost:5173",
 	}),
 );
-
-let trash = [];
 
 const port = 3000;
 
