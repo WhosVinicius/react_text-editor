@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-const SideBar = ({ NewItem, SearchForm, list, isInputActive, setInputActive, Trash }) => {
+function SideBar({ NewItem, SearchForm, list, isInputActive, setInputActive, Trash }) {
 	const [searchInput, setSearchInput] = useState(false);
 
-	function showInput() {
+	const showInput = () => {
 		setInputActive(!isInputActive);
 		setSearchInput(false);
-	}
+	};
 
-	function showSearchInput() {
+	const showSearchInput = () => {
 		setSearchInput(!searchInput);
 		setInputActive(false);
-	}
+	};
 
 	return (
 		<div
@@ -41,5 +41,5 @@ const SideBar = ({ NewItem, SearchForm, list, isInputActive, setInputActive, Tra
 			<div className='overflow-y-scroll h-1/3'>{Trash}</div>
 		</div>
 	);
-};
+}
 export default SideBar;
